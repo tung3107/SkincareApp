@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/option_1"
+        android:title="Tạo routine" />
+    <item
+        android:id="@+id/option_2"
+        android:title="Chia sẻ sản phẩm" />
+    <item
+        android:id="@+id/option_3"
+        android:title="Danh sách của tôi" />
+</menu>
