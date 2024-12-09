@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="12dp"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="false"
     app:cardCornerRadius="16dp"
@@ -22,7 +22,6 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:background="@drawable/roundimage"
-            android:src="@drawable/product1"
             android:clipToOutline="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,12 +44,14 @@
             app:layout_constraintTop_toBottomOf="@id/ivProductImage" />
 
         <!-- Description -->
+
+        <!-- Add to Routine Button -->
         <TextView
-            android:id="@+id/tvProductDescription"
+            android:id="@+id/tvNgayMua"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/epilogue_medium"
+            android:fontFamily="@font/epilogue_bold"
             android:text="For dry skin"
             android:textColor="#A17D1C"
             android:textSize="14sp"
@@ -58,21 +59,60 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
-        <!-- Add to Routine Button -->
-        <Button
-            android:id="@+id/btnAddToRoutine"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvNgayHetHan"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="#F3c738"
-            android:elevation="4dp"
-            android:text="Add to routine"
-            android:textAllCaps="false"
-            android:textColor="#ab2117"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/epilogue_bold"
+            android:text="For dry skin"
+            android:textColor="#A17D1C"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNgayMua" />
+
+        <TextView
+            android:id="@+id/tvGia"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/epilogue_bold"
+            android:text="For dry skin"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNgayHetHan" />
+
+         <Button
+            android:id="@+id/btnSua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#fac738"
+            android:elevation="4dp"
+            android:text="Sua"
+            android:textAllCaps="false"
+            android:textColor="#ab2117"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/btnXoa"
+            app:layout_constraintTop_toBottomOf="@+id/tvGia" />
+
+        <Button
+            android:id="@+id/btnXoa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#fac738"
+            android:elevation="4dp"
+            android:text="Xoa"
+            android:textAllCaps="false"
+            android:textColor="#ab2117"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGia" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -38,6 +38,7 @@ dependencies {
     val nav_version = "2.1.0-alpha02"
     implementation ("androidx.navigation:navigation-fragment:$nav_version") // For Kotlin use navigation-fragment-ktx
     implementation ("androidx.navigation:navigation-ui:$nav_version")
+    implementation (libs.mpandroidchart)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

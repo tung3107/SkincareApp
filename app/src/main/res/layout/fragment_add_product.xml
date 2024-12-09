@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddProductFragment">
+    tools:context=".AddProductFragment"
+    android:background="#FBF8EF">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -15,28 +16,26 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/epilogue_bold"
-            android:text="Thêm Sản Phẩm"
-            android:textAlignment="center"
+            android:text="Thêm sản phẩm"
             android:textColor="@color/black"
+            android:textSize="20dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:textSize="22sp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/epilogue_medium"
             android:text="Tên Sản Phẩm"
-            android:textColor="#121417"
+            android:textColor="#211A0A"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -44,42 +43,94 @@
             android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="18dp"
             android:fontFamily="@font/epilogue_medium"
             android:text="Nhãn Hiệu"
-            android:textColor="#121417"
+            android:textColor="#211A0A"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextTenSP" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Giá tiền"
+            android:textColor="#211A0A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNhanHieu" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Ngày mua"
+            android:textColor="#211A0A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextGiaTien" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Ngày hết hạn"
+            android:textColor="#211A0A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonNgayMua" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Ảnh sản phẩm"
+            android:textColor="#211A0A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonNgayHetHan" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextTenSP"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
-            android:background="#F0F2F5"
+            android:background="#f5f0db"
             android:ems="10"
             android:hint="Name"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
             android:inputType="text"
             android:padding="10dp"
             android:textColor="#637587"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:background="@drawable/roundimage"
+            tools:background="@drawable/roundtxt"
             tools:layout_constraintCircleRadius="12dp" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/editTextNhanHieu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
-            android:background="#F0F2F5"
+            android:background="#f5f0db"
             android:ems="10"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
             android:hint="Nhãn hiệu"
             android:inputType="text"
             android:padding="10dp"
@@ -87,7 +138,93 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:background="@drawable/roundimage"
+            tools:background="@drawable/roundtxt"
             tools:layout_constraintCircleRadius="12dp" />
+
+        <EditText
+            android:id="@+id/editTextGiaTien"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:background="#f5f0db"
+            android:ems="10"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            android:hint="Giá tiền"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#637587"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:background="@drawable/roundtxt"
+            tools:layout_constraintCircleRadius="12dp" />
+
+        <Button
+            android:id="@+id/buttonNgayMua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#fac738"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Chọn ngày mua"
+            android:textColor="#ab2117"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <Button
+            android:id="@+id/buttonNgayHetHan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#fac738"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Chọn ngày hết hạn"
+            android:textColor="#ab2117"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <Button
+            android:id="@+id/buttonAnh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#fac738"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Chọn ảnh sản phẩm"
+            android:textColor="#ab2117"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <ImageView
+            android:id="@+id/anhSP"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonAnh" />
+
+        <Button
+            android:id="@+id/buttonThem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#fac738"
+            android:fontFamily="@font/epilogue_medium"
+            android:text="Thêm sản phẩm"
+            android:textColor="#ab2117"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/anhSP" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+</ScrollView>

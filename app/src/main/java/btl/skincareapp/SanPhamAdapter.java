@@ -1,6 +1,8 @@
 package btl.skincareapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,12 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     public void onBindViewHolder(@NonNull SanPhamViewHolder holder, int position) {
         holder.txSp.setText(sanPhamList.get(position).getTenSp());
         holder.txDescrip.setText(sanPhamList.get(position).getMoTaSP());
-        holder.AnhSp.setImageResource(sanPhamList.get(position).getImageImport());
+        if (sanPhamList.get(position).getImageImport() != 0) {
+            holder.AnhSp.setImageResource(sanPhamList.get(position).getImageImport());
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeFile(sanPhamList.get(position).getImageURL());
+            holder.AnhSp.setImageBitmap(bitmap);
+        }
     }
 
 

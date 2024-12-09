@@ -1,9 +1,11 @@
 package btl.skincareapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,9 +17,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+
+import btl.skincareapp.helper.DatabaseHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +45,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
 
     List<Product> listHetHan = new ArrayList<Product>();
     List<Product> listGoiY = new ArrayList<Product>();
+    TextView tvGreeting;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -69,14 +77,19 @@ public class HomeFragment extends Fragment implements MenuProvider {
         }
     }
 
-    private void themSanPhamList() {
-        listHetHan.add(new Product("Glossier Soothing Face Mist", "5 days left", R.drawable.product1));
-        listHetHan.add(new Product("Kiehl's Ultra Facial Cream", "3 days left", R.drawable.product1));
-        listHetHan.add(new Product("Sunday Riley Good Genes", "1 week left", R.drawable.product1));
+    private void themSanPhamList(int user_id) {
+        DatabaseHelper db = new DatabaseHelper(getContext());
+        List<Product> resultMap = db.getExpiredProducts(user_id);
+        for (Product product:
+             resultMap) {
+            listHetHan.add(new Product(product.getTenSp().toString(), "Còn " + product.getMoTaSP().toString() + " ngày", product.getImageURL().toString()));
+        }
+
         //
         listGoiY.add(new Product("La Roche-Posay Foaming Cleanser", "For dry skin", R.drawable.product1));
         listGoiY.add(new Product("CeraVe Hydrating Cleanser", "For sensitive skin", R.drawable.product1));
         listGoiY.add(new Product("The Ordinary Niacinamide 10% + Zinc 1%", "For oily skin", R.drawable.product1));
+
     }
     private void rvGoiY(View view) {
         RecyclerView rvSanPhamGoiY = view.findViewById(R.id.rvProducts);
@@ -87,17 +100,37 @@ public class HomeFragment extends Fragment implements MenuProvider {
 
         ///
         RecyclerView rvSanPhamHetHan = view.findViewById(R.id.rvExpiringProducts);
-        rvSanPhamHetHan.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManagerHetHan = new LinearLayoutManager(view.getContext());
-        rvSanPhamHetHan.setLayoutManager(layoutManagerHetHan);
-        rvSanPhamHetHan.setAdapter(new SanPhamAdapter(listHetHan, view.getContext(), "co"));
+        ConstraintLayout constraintLayout = view.findViewById(R.id.layoutNoProduct);
+        if(listHetHan.isEmpty()) {
+            rvSanPhamHetHan.setVisibility(View.INVISIBLE);
+            constraintLayout.setVisibility(View.VISIBLE);
+            rvSanPhamGoiY.setLayoutDirection(R.id.layoutNoProduct);
+
+        } else {
+            rvSanPhamHetHan.setVisibility(View.VISIBLE);
+            constraintLayout.setVisibility(View.INVISIBLE);
+            rvSanPhamHetHan.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManagerHetHan = new LinearLayoutManager(view.getContext());
+            rvSanPhamHetHan.setLayoutManager(layoutManagerHetHan);
+            rvSanPhamHetHan.setAdapter(new SanPhamAdapter(listHetHan, view.getContext(), "co"));
+        }
+    }
+
+    private void textWelcome(View view) {
+        Calendar calendar = Calendar.getInstance();
+        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        tvGreeting = view.findViewById(R.id.tvGreeting);
+        tvGreeting.setText("Chào buổi " + ((6 <= timeOfDay && timeOfDay <= 12) ? "sáng!" : (13 <= timeOfDay && timeOfDay <= 18) ? "chiều!" : "tối!"));
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        themSanPhamList();
+        SharedPreferences share = getContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        int user_id = share.getInt("currentUserID", -1);
+        textWelcome(view);
+        themSanPhamList(user_id);
         //// Them vao recycle het han, goi y mot dong san pham
         rvGoiY(view);
         requireActivity().addMenuProvider(this, getViewLifecycleOwner());

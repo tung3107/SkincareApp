@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_margin="5dp"
+    app:cardUseCompatPadding="false"
     app:cardElevation="6dp"
     app:cardCornerRadius="16dp"
-    app:cardBackgroundColor="#FFFFFF">
+    app:cardBackgroundColor="#faf7f0">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,8 +40,8 @@
             android:fontFamily="@font/epilogue_bold"
             android:maxLines="2"
             android:text="La Roche-Posay Toleriane Purifying Foaming Cleanser"
-            android:textColor="#333333"
-            android:textSize="14sp"
+            android:textColor="#211A0A"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/ivProductImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,9 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/epilogue_bold"
+            android:fontFamily="@font/epilogue_medium"
             android:text="For dry skin"
-            android:textColor="#666666"
+            android:textColor="#A17D1C"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/ivProductImage"
             app:layout_constraintTop_toBottomOf="@+id/tvProductName" />

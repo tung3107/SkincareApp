@@ -1,5 +1,7 @@
 package btl.skincareapp;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +12,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.elevation.SurfaceColors;
 
 import btl.skincareapp.databinding.ActivityMainBinding;
 
@@ -34,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new AnalysisFragment());
             } else if(item.getItemId() == R.id.nav_settings) {
                 replaceFragment(new SettingFragment());
+            } else if(item.getItemId() == R.id.nav_mylist) {
+                replaceFragment(new MyListFragment());
             }
             return true;
         });
+
     }
 
     private void replaceFragment(Fragment fragment) {
