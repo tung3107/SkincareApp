@@ -1,8 +1,12 @@
 package btl.skincareapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Context;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,10 +38,18 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
 
     List<MyProduct> sanPhamList;
     Context context;
+    ActivityResultLauncher<Intent> editLauncher;
 
     public myProductAdapter(List<MyProduct> sanPhamList, Context context) {
         this.sanPhamList = sanPhamList;
         this.context = context;
+        this.editLauncher = null;
+    }
+
+    public myProductAdapter(List<MyProduct> sanPhamList, Context context, ActivityResultLauncher<Intent> editLauncher) {
+        this.sanPhamList = sanPhamList;
+        this.context = context;
+        this.editLauncher = editLauncher;
     }
 
 
@@ -49,6 +62,11 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
         myProductViewHolder holder = new myProductViewHolder(view);
 
         return holder;
+    }
+
+    public int getUserId() {
+        SharedPreferences share = context.getSharedPreferences("UserSession", MODE_PRIVATE);
+        return share.getInt("currentUserID", -1);
     }
 
 
@@ -69,6 +87,23 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
         holder.txtNgayhetHan.setText("Ngày hết hạn: "+sanPhamList.get(position).getNgayHetHan().toString());
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this.context);
+
+        holder.btnSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int adapterPosition = sanPhamList.get(holder.getAdapterPosition()).getId();
+                Intent intent = new Intent(view.getContext(), EditSP.class);
+                DatabaseHelper db = new DatabaseHelper(view.getContext());
+                MyProduct myProduct = db.getOneSP(adapterPosition, getUserId());
+                intent.putExtra("product", myProduct);
+                intent.putExtra("product_position", holder.getAdapterPosition());
+                editLauncher.launch(intent);
+
+                //
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+
         holder.btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +116,14 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             databaseHelper.deleteOneSP(sanPhamList.get(adapterPosition).getId());
+
+                            // Xoa file anh truoc khi xoa list
+                            File imagePath = new File(sanPhamList.get(adapterPosition).getUrl_Anh());
+                            if(imagePath.exists()) {
+                                imagePath.delete();
+                            }
                             sanPhamList.remove(adapterPosition);
+
                             notifyItemRemoved(adapterPosition);
                             notifyItemRangeChanged(adapterPosition, sanPhamList.size());
                         }
@@ -98,6 +140,7 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
             }
         });
     }
+
 
 
     // Dem co may san pham
@@ -122,5 +165,6 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
             btnXoa = itemView.findViewById(R.id.btnXoa);
             btnSua = itemView.findViewById(R.id.btnSua);
         }
+
     }
 }

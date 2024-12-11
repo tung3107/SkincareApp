@@ -106,7 +106,6 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
-            android:background="#f5f0db"
             android:ems="10"
             android:hint="Name"
             android:clipToOutline="true"
@@ -117,7 +116,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:background="@drawable/roundtxt"
+            android:background="@drawable/roundtxt"
             tools:layout_constraintCircleRadius="12dp" />
 
         <EditText
@@ -127,7 +126,6 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
-            android:background="#f5f0db"
             android:ems="10"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
@@ -138,7 +136,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:background="@drawable/roundtxt"
+            android:background="@drawable/roundtxt"
             tools:layout_constraintCircleRadius="12dp" />
 
         <EditText
@@ -148,7 +146,6 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
-            android:background="#f5f0db"
             android:ems="10"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
@@ -159,7 +156,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            tools:background="@drawable/roundtxt"
+            android:background="@drawable/roundtxt"
             tools:layout_constraintCircleRadius="12dp" />
 
         <Button
@@ -211,7 +208,7 @@
             app:layout_constraintTop_toBottomOf="@id/buttonAnh" />
 
         <Button
-            android:id="@+id/buttonThem"
+            android:id="@+id/buttonSua"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"

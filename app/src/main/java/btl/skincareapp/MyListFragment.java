@@ -1,9 +1,14 @@
 package btl.skincareapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
@@ -67,12 +72,12 @@ public class MyListFragment extends Fragment implements MenuProvider {
         return fragment;
     }
 
-    private void rvAd(View view) {
+    private void rvAd(View view, ActivityResultLauncher<Intent> editLaucher) {
         RecyclerView rvProducts = view.findViewById(R.id.rvProducts);
         rvProducts.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutMyList = new LinearLayoutManager(view.getContext());
         rvProducts.setLayoutManager(layoutMyList);
-        rvProducts.setAdapter(new myProductAdapter(productList, view.getContext()));
+        rvProducts.setAdapter(new myProductAdapter(productList, view.getContext(), editLaucher));
     }
 
     @Override
@@ -99,8 +104,25 @@ public class MyListFragment extends Fragment implements MenuProvider {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        rvAd(view);
+        ActivityResultLauncher<Intent> editLaucher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result-> {
+            if(result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                MyProduct updatedProduct = (MyProduct) result.getData().getSerializableExtra("updatedProduct");
+                int product_position = result.getData().getIntExtra("product_position", -1);
+                productList.set(product_position, updatedProduct);
+
+
+                //// UPDATE THE LIST NHE
+                RecyclerView rvProducts = view.findViewById(R.id.rvProducts);
+                myProductAdapter adapter = (myProductAdapter) rvProducts.getAdapter();
+                if (adapter != null) {
+                    adapter.notifyItemChanged(product_position); //
+                }
+
+            }
+        });
+        rvAd(view, editLaucher);
         requireActivity().addMenuProvider(this, getViewLifecycleOwner());
+
 
 
 

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SkincareApp"
         tools:targetApi="31">
         <activity
+            android:name=".EditSP"
+            android:exported="false" />
+        <activity
             android:name=".TrungGian"
             android:exported="true">
             <intent-filter>

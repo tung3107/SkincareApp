@@ -1,12 +1,16 @@
 package btl.skincareapp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MyProduct {
+public class MyProduct implements Serializable {
     private String TenSp, Gia, NhanHieu, Url_Anh;
     private int id, user_id;
     private String NgayMua, NgayHetHan;
 
+    public MyProduct() {
+
+    }
     public MyProduct(int id, String tenSp, String gia, String nhanHieu, String url_Anh, String ngayMua, String ngayHetHan, int user_id) {
         this.id = id;
         TenSp = tenSp;

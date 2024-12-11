@@ -1,15 +1,11 @@
 package btl.skincareapp;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 
@@ -18,7 +14,6 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +25,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import btl.skincareapp.helper.DatabaseHelper;
@@ -147,7 +140,7 @@ public class AddProductFragment extends Fragment {
                         selectedNgayHetHan = sdf.format(selectedCalendar.getTime());
                     }
                 };
-                DatePickerDialog pic = new DatePickerDialog(view.getContext(), callback, 2024,10,21);
+                DatePickerDialog pic = new DatePickerDialog(view.getContext(), callback, year,month,day);
                 pic.setTitle("Chọn ngày hết hạn");
                 pic.show();
             }
@@ -240,7 +233,7 @@ public class AddProductFragment extends Fragment {
         txtGia = view.findViewById(R.id.editTextGiaTien);
         txtNhanHang = view.findViewById(R.id.editTextNhanHieu);
         txtTenSp = view.findViewById(R.id.editTextTenSP);
-        btnThem = view.findViewById(R.id.buttonThem);
+        btnThem = view.findViewById(R.id.buttonSua);
         anhSp = view.findViewById(R.id.anhSP);
     }
     @Override

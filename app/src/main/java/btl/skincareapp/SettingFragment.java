@@ -123,6 +123,7 @@ public class SettingFragment extends Fragment {
                 editor.apply();
 
                 Intent intent = new Intent(view.getContext(), TrungGian.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         });

@@ -262,14 +262,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String queryString = "Select " + COLUMN_PRODUCT_NAME + ", " + COLUMN_anhurl + ", cast(julianday(strftime('%Y-%m-%d', "+ COLUMN_Date_hethan +" )) - julianday(strftime('%Y-%m-%d', 'now')) as INTEGER) as expire_date "+
                 "from MYPRODUCT where cast(julianday(strftime('%Y-%m-%d', EXPIRE_DATE )) - julianday(strftime('%Y-%m-%d', 'now')) as INTEGER) <= 15 and user_id = ?";
         Cursor cursor = db.rawQuery(queryString, new String[]{String.valueOf(user_id)});
-//        if (cursor.moveToFirst()) {
-//            do {
-//                resultList.add(new Product(cursor.getString(0), String.valueOf(cursor.getInt(2)), cursor.getString(1)));
-//            } while (cursor.moveToNext());
-//        }
+        if (cursor.moveToFirst()) {
+            do {
+                resultList.add(new Product(cursor.getString(0), String.valueOf(cursor.getInt(2)), cursor.getString(1)));
+            } while (cursor.moveToNext());
+        }
         System.out.println(resultList);
         cursor.close();
         return resultList;
+    }
+    public boolean updateSP(MyProduct myProduct) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_BRAND, myProduct.getNhanHieu());
+        cv.put(COLUMN_NAME, myProduct.getTenSp());
+        cv.put(COLUMN_Date_hethan, myProduct.getNgayHetHan());
+        cv.put(COLUMN_Date_mua, myProduct.getNgayMua());
+        cv.put(COLUMN_anhurl, myProduct.getUrl_Anh());
+        cv.put(COLUMN_gia, myProduct.getGia());
+
+        long insert = db.update(MYPRODUCT, cv, "ID = ? and user_id = ?",
+                new String[]{String.valueOf(myProduct.getId()), String.valueOf(myProduct.getUser_id())});
+        db.close();
+        return insert != -1;
+    };
+    public MyProduct getOneSP(int product_id, int user_id) {
+        MyProduct myProduct = new MyProduct();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryString = "Select * from MYPRODUCT where " + COLUMN_PRODUCT_ID + " = ? and user_id = ?";
+        Cursor cursor = db.rawQuery(queryString, new String[]{String.valueOf(product_id), String.valueOf(user_id)});
+        if(cursor.moveToFirst()) {
+            return new MyProduct(product_id, cursor.getString(1), cursor.getString(3), cursor.getString(2), cursor.getString(4), cursor.getString(6), cursor.getString(5), user_id);
+        }
+        cursor.close();
+        db.close();
+        return myProduct;
     }
     public void deleteOneSP(int productID) {
         SQLiteDatabase db = this.getWritableDatabase();

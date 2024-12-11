@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="#faf7f0"
-            android:padding="12dp"
+            android:padding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvExpiringTitle">
@@ -60,7 +60,9 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:background="@drawable/roundimage"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
@@ -73,7 +75,7 @@
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/epilogue_bold"
                 android:text="Không có sản phẩm sắp hết hạn"
                 android:textColor="#211A0A"
@@ -98,7 +100,7 @@
                 android:id="@+id/btnThemSanPham"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="#F5EFDB"
                 android:text="Thêm sản phẩm"
                 android:textColor="#211A0A"
@@ -107,13 +109,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvExpiringProducts"
-            android:layout_width="351dp"
-            android:layout_height="209dp"
+            android:layout_width="349dp"
+            android:layout_height="238dp"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvExpiringTitle" />
 
