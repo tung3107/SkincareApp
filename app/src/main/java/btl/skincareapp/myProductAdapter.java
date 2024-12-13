@@ -69,6 +69,10 @@ public class myProductAdapter extends RecyclerView.Adapter<myProductAdapter.myPr
         return share.getInt("currentUserID", -1);
     }
 
+    public void setFilteredList(List<MyProduct> myProductsList) {
+        this.sanPhamList = myProductsList;
+        notifyDataSetChanged();
+    }
 
     ///
     @Override

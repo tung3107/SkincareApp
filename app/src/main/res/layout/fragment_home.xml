@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:fontFamily="@font/epilogue_bold"
-            android:text="Your products are expiring soon"
+            android:text="Sản phẩm sắp hết hạn của bạn"
             android:textColor="#211A0A"
             android:textSize="22dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -126,11 +126,11 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/epilogue_bold"
-            android:text="Products for you"
+            android:text="Routine của bạn"
             android:textColor="@color/black"
             android:textSize="22dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvExpiringProducts"/>
+            app:layout_constraintTop_toBottomOf="@id/rvExpiringProducts" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProducts"

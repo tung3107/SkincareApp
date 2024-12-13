@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -47,9 +49,10 @@ public class MyListFragment extends Fragment implements MenuProvider {
     private String mParam2;
 
     Button txtXoa,txtSua;
+    SearchView searchView;
 
     List<MyProduct> productList = new ArrayList<MyProduct>();
-
+    RecyclerView rvProducts;
     public MyListFragment() {
         // Required empty public constructor
     }
@@ -73,7 +76,7 @@ public class MyListFragment extends Fragment implements MenuProvider {
     }
 
     private void rvAd(View view, ActivityResultLauncher<Intent> editLaucher) {
-        RecyclerView rvProducts = view.findViewById(R.id.rvProducts);
+        rvProducts = view.findViewById(R.id.rvProducts);
         rvProducts.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutMyList = new LinearLayoutManager(view.getContext());
         rvProducts.setLayoutManager(layoutMyList);
@@ -95,8 +98,22 @@ public class MyListFragment extends Fragment implements MenuProvider {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_list, container, false);
 
-        SharedPreferences share = getContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-        int user_id = share.getInt("currentUserID", -1);
+        searchView = view.findViewById(R.id.inputSearch);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterSearch(newText);
+                return false;
+            }
+        });
+
+        int user_id = getUserId();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(view.getContext());
         try {
@@ -110,9 +127,8 @@ public class MyListFragment extends Fragment implements MenuProvider {
                 int product_position = result.getData().getIntExtra("product_position", -1);
                 productList.set(product_position, updatedProduct);
 
-
+                 rvProducts = view.findViewById(R.id.rvProducts);
                 //// UPDATE THE LIST NHE
-                RecyclerView rvProducts = view.findViewById(R.id.rvProducts);
                 myProductAdapter adapter = (myProductAdapter) rvProducts.getAdapter();
                 if (adapter != null) {
                     adapter.notifyItemChanged(product_position); //
@@ -120,13 +136,32 @@ public class MyListFragment extends Fragment implements MenuProvider {
 
             }
         });
+
         rvAd(view, editLaucher);
         requireActivity().addMenuProvider(this, getViewLifecycleOwner());
 
 
-
-
         return view;
+    }
+
+    private int getUserId() {
+        SharedPreferences share = getContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        int user_id = share.getInt("currentUserID", -1);
+        return user_id;
+    }
+
+    private void filterSearch(String newText) {
+        List<MyProduct> filterList = new ArrayList<>();
+        for(MyProduct myProduct : productList) {
+            if(myProduct.getTenSp().toLowerCase().contains(newText)) {
+                filterList.add(myProduct);
+            }
+        }
+
+        if(!filterList.isEmpty())  {
+            myProductAdapter adapter = (myProductAdapter) rvProducts.getAdapter();
+            adapter.setFilteredList(filterList);
+        }
     }
 
     @Override
