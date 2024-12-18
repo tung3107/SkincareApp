@@ -1,4 +1,4 @@
-package btl.skincareapp;
+package btl.skincareapp.view.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +13,12 @@ import android.content.DialogInterface;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
-import android.content.Context;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import btl.skincareapp.view.MainActivity;
+import btl.skincareapp.R;
 import btl.skincareapp.helper.DatabaseHelper;
 import btl.skincareapp.model.User;
 

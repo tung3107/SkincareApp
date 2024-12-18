@@ -12,15 +12,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import btl.skincareapp.Product;
+import btl.skincareapp.model.Product;
 import btl.skincareapp.model.MyProduct;
+import btl.skincareapp.model.Routine;
 import btl.skincareapp.model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -56,10 +56,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Routine
     private static final String TABLE_ROUTINE = "Routine";
     private static final String COLUMN_ROUTINE_ID = "id";
-    private static final String COLUMN_ROUTINE_TYPE = "routine_type"; // Morning/Night
+    private static final String COLUMN_ROUTINE_TIME = "time"; // Morning/Night
     private static final String COLUMN_ROUTINE_NAME = "name";
-    private static final String COLUMN_ROUTINE_PRODUCT_ID = "product_id"; // Khóa ngoại từ bảng Product
     private static final String COLUMN_ROUTINE_USER_ID = "user_id";
+
+    private String createRoutineProductTable = "CREATE TABLE RoutineProduct (" +
+            "routine_id "+  " INTEGER NOT NULL, " +     "product_id INTEGER NOT NULL, " +
+            "PRIMARY KEY (routine_id, product_id), " +              "FOREIGN KEY (routine_id) REFERENCES Routine(id) ON DELETE CASCADE, " +
+            "FOREIGN KEY (product_id) REFERENCES MYPRODUCT(ID) ON DELETE CASCADE)";
 
     private String createTableStatementMyProduct = "CREATE TABLE " + MYPRODUCT + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
     COLUMN_NAME + " TEXT," + COLUMN_BRAND + " TEXT," + COLUMN_gia + " TEXT," + COLUMN_anhurl + " TEXT," + COLUMN_Date_hethan + " DATETIME," + COLUMN_Date_mua + " DATETIME," +
@@ -80,32 +84,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String createRoutineTable = "CREATE TABLE " + TABLE_ROUTINE + " (" +
                     COLUMN_ROUTINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-    COLUMN_ROUTINE_TYPE + " TEXT NOT NULL, " + COLUMN_ROUTINE_NAME + " TEXT, " + COLUMN_ROUTINE_PRODUCT_ID + " INTEGER, " +
+            COLUMN_ROUTINE_TIME + " TEXT NOT NULL, " + COLUMN_ROUTINE_NAME + " TEXT, "  +
                     COLUMN_ROUTINE_USER_ID + " INTEGER, " +
-"FOREIGN KEY (" + COLUMN_ROUTINE_PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_ID + "), " +
                     "FOREIGN KEY (" + COLUMN_ROUTINE_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_USER_ID + "))";
             
         
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, "skincareapp.db", null, 6 );
+        super(context, "skincareapp.db", null, 10 );
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
     //       Cai nay goi dau tien khi database duoc accessed
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(createTableStatementuser);
-        sqLiteDatabase.execSQL(createTableStatementMyProduct);
-        sqLiteDatabase.execSQL(createProductTable);
+//        sqLiteDatabase.execSQL(createTableStatementuser);
+//        sqLiteDatabase.execSQL(createTableStatementMyProduct);
+//        sqLiteDatabase.execSQL(createProductTable);
         sqLiteDatabase.execSQL(createRoutineTable);
+        sqLiteDatabase.execSQL(createRoutineProductTable);
     }
     /// version of database thay doi -> goi
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("Drop table if exists MYPRODUCT");
-        sqLiteDatabase.execSQL("Drop table if exists Users");
-        sqLiteDatabase.execSQL("Drop table if exists Product");
+//        sqLiteDatabase.execSQL("Drop table if exists MYPRODUCT");
+//        sqLiteDatabase.execSQL("Drop table if exists Users");
+//        sqLiteDatabase.execSQL("Drop table if exists Product");
         sqLiteDatabase.execSQL("Drop table if exists " + TABLE_ROUTINE);
+        sqLiteDatabase.execSQL("Drop table if exists " + "RoutineProduct");
+
         onCreate(sqLiteDatabase);
     }
 
@@ -184,6 +196,99 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
     }
+    public List<Routine> getAllRoutine(int user_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * from Routine where user_id = ?", new String[]{String.valueOf(user_id)});
+        List<Routine> routineList = new ArrayList<Routine>();
+        if(cursor.moveToFirst()) {
+            do {
+                routineList.add(new Routine(cursor.getInt(0), user_id, cursor.getString(2), cursor.getString(1), null));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        for (Routine routine: routineList) {
+            cursor = db.rawQuery("SELECT MYPRODUCT.ID, MYPRODUCT.NAME, MYPRODUCT.IMAGE_URL from RoutineProduct " +
+                    "INNER JOIN MYPRODUCT ON RoutineProduct.product_id = MYPRODUCT.ID WHERE routine_id = ? and MYPRODUCT.user_id = ?", new String[]{String.valueOf(routine.getId()), String.valueOf(user_id)});
+            List<MyProduct> productList = new ArrayList<MyProduct>();
+            if(cursor.moveToFirst()) {
+                do {
+                    productList.add(new MyProduct(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+                } while (cursor.moveToNext());
+            }
+            routine.setProductList(productList);
+            cursor.close();
+        }
+        db.close();
+        return routineList;
+    }
+    public boolean deleteOneRoutine(int user_id, int routine_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_ROUTINE, "user_id = ? and id = ?", new String[]{String.valueOf(user_id), String.valueOf(routine_id)});
+
+        return result != -1;
+    }
+
+    public boolean addOneRoutine(int user_id, Routine routine) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_ROUTINE_TIME, routine.getTime());
+        cv.put(COLUMN_ROUTINE_NAME, routine.getName());
+        cv.put(COLUMN_ROUTINE_USER_ID, user_id);
+
+        long routineID = -1;
+
+        List<MyProduct> routineProductList = routine.getProductList();
+        try {
+            db.beginTransaction();
+            routineID = db.insert(TABLE_ROUTINE, null, cv);
+            if(routineID == -1) {
+                throw new Exception("Không tạo được bảng routine");
+            }
+            for (MyProduct product : routineProductList) {
+                ContentValues cvRoutineProduct = new ContentValues();
+                cvRoutineProduct.put("product_id", product.getId());
+                cvRoutineProduct.put("routine_id", routineID);
+
+                long result = db.insert("RoutineProduct", null, cvRoutineProduct);
+                if (result == -1) {
+                    throw new Exception("Có lỗi trong quá trình tạo dữ liệu bảng routine product");
+                }
+
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+        return routineID != -1;
+    }
+
+    public boolean updateOneRoutine(int user_id, Routine routine) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ROUTINE_NAME, routine.getName().toString());
+        cv.put(COLUMN_ROUTINE_TIME, routine.getTime().toString());
+        db.update(TABLE_ROUTINE, cv, "user_id = ? and id = ?", new String[]{String.valueOf(user_id), String.valueOf(routine.getId())});
+
+        List<MyProduct> productList = routine.getProductList();
+        ArrayList<CharSequence> arrayList = new ArrayList<CharSequence>();
+//
+        for (MyProduct product: productList) {
+            String query = "INSERT OR REPLACE INTO RoutineProduct (routine_id, product_id) " +
+                    "VALUES (?, ?) ";
+            db.execSQL(query, new Object[]{String.valueOf(routine.getId()), String.valueOf(product.getId())});
+            arrayList.add(String.valueOf(product.getId()));
+        }
+        String excludedProduct = String.join(",", arrayList);
+        String deleteQuery = "DELete from RoutineProduct where routine_id = ? and product_id not in ("+excludedProduct+")";
+        db.execSQL(deleteQuery, new Object[]{String.valueOf(routine.getId())});
+        db.close();
+        return true;
+    }
 
     public Map<String, Object> thongKe(int user_id) {
         Calendar calendar = Calendar.getInstance();
@@ -199,10 +304,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "AND user_id = ?";
         patternDB(db,Maxquery,"string", "max_gia_name", user_id);
 
-//        String Maxquery = "SELECT "+ COLUMN_NAME +", " + "MAX(CAST("+COLUMN_gia +" AS INTEGER)) AS MAX_PRICE FROM MYPRODUCT where "
-//                + "strftime('%m', " + COLUMN_Date_mua + ") = ? AND strftime('%Y', " + COLUMN_Date_mua + ") = ? and user_id = ?";
-//        patternDB(db,Maxquery,"string", "max_gia_name", currentMonth, currentYear, user_id);
-
         String averageQuery = "SELECT "+ "AVG(CAST("+COLUMN_gia +" AS INTEGER)) AS AVG_PRICE FROM MYPRODUCT where user_id = ?";
         patternDB(db, averageQuery, "int", "avg_price", user_id);
 
@@ -216,7 +317,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "strftime('%m', " + COLUMN_Date_mua + ") = ? AND strftime('%Y', " + COLUMN_Date_mua + ") = ? and user_id = ?";
         Cursor cursor = db.rawQuery(MonthLySpent, new String[]{String.valueOf(currentMonth), String.valueOf(currentYear), String.valueOf(user_id)});
         System.out.println(MonthLySpent);
-        if (cursor.moveToFirst()) { // Di chuyển đến bản ghi đầu tiên
+        if (cursor.moveToFirst()) {
             combineMap.put("monthly_spent", cursor.getInt(0));
         } else {
             combineMap.put("monthly_spent", 0);
@@ -253,6 +354,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         }
         cursor.close();
+        db.close();
         return myProductList;
                 
     }

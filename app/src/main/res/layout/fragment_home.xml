@@ -3,21 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeFragment"
-    android:background="#faf7f0">
+    android:layout_height="wrap_content"
+    android:background="#faf7f0"
+    tools:context=".view.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".view.MainActivity">
 
         <!-- Header -->
 
         <!-- "Your products are expiring soon" Section -->
 
         <!-- "Products for you" Section -->
+
+        <Button
+            android:id="@+id/btnSuaRoutine"
+            android:layout_width="175dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#F3c738"
+            android:drawableRight="@drawable/baseline_add_circle_24"
+            android:elevation="4dp"
+            android:text="Thêm routine"
+            android:textAllCaps="false"
+            android:textColor="#ab2117"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductsTitle" />
 
         <TextView
             android:id="@+id/tvGreeting"
@@ -27,8 +43,8 @@
             android:layout_marginTop="50dp"
             android:fontFamily="@font/epilogue_bold"
             android:text="Hi, good morning"
-            android:textSize="18sp"
             android:textColor="#211A0A"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -132,16 +148,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvExpiringProducts" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProducts"
-            android:layout_width="372dp"
-            android:layout_height="350dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <TextView
+            android:id="@+id/tvThongBao2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/epilogue_bold"
+            android:text="Không có routine nào, hãy thêm routine mới"
+            android:textColor="#211A0A"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProductsTitle"
-            app:layout_constraintVertical_bias="0.149" />
+            app:layout_constraintTop_toBottomOf="@+id/btnSuaRoutine" />
+
+        <LinearLayout
+            android:id="@+id/routineContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical"
+            android:padding="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSuaRoutine" >
+
+        </LinearLayout>
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rvProductsToi"-->
+<!--            android:layout_width="372dp"-->
+<!--            android:layout_height="238dp"-->
+<!--            android:layout_marginTop="9dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent">-->
+
+<!--        </androidx.recyclerview.widget.RecyclerView>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

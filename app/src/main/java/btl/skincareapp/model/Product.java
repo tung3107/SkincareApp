@@ -1,4 +1,4 @@
-package btl.skincareapp;
+package btl.skincareapp.model;
 
 public class Product {
     private String TenSp;

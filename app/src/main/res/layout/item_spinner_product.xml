@@ -22,9 +22,9 @@
 
     <TextView
         android:id="@+id/productName"
-        android:layout_width="218dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="236dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="5dp"
         android:ellipsize="middle"
         android:fontFamily="@font/epilogue_bold"
         android:maxLines="2"
@@ -32,17 +32,8 @@
         android:textColor="#211A0A"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/productImage"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/btnDeleteProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/productName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_delete_forever_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

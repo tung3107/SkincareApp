@@ -1,4 +1,4 @@
-package btl.skincareapp;
+package btl.skincareapp.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,18 +14,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Objects;
+
+import btl.skincareapp.model.Product;
+import btl.skincareapp.R;
 
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamViewHolder> {
 
-    String isSmall;
+    String isSmall, isHome;
     List<Product> sanPhamList;
     Context context;
 
-    public SanPhamAdapter(List<Product> sanPhamList, Context context, String isSmall) {
+    public SanPhamAdapter(List<Product> sanPhamList, Context context, String isSmall, String isHome) {
         this.sanPhamList = sanPhamList;
         this.context = context;
         this.isSmall = isSmall;
+        this.isHome = isHome;
     }
 
 
@@ -34,7 +37,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     @Override
     public SanPhamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
-        if(Objects.equals(this.isSmall, "")) {
+        if(this.isSmall == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_small, parent, false);
@@ -76,7 +79,6 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             AnhSp = itemView.findViewById(R.id.ivProductImage);
             txSp = itemView.findViewById(R.id.tvProductName);
             txDescrip = itemView.findViewById(R.id.tvProductDescription);
-            btnAddRoutine = itemView.findViewById(R.id.btnAddToRoutine);
 
         }
     }

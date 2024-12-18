@@ -1,4 +1,4 @@
-package btl.skincareapp;
+package btl.skincareapp.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import btl.skincareapp.R;
+import btl.skincareapp.view.user.SignUp;
 
 public class TrungGian extends AppCompatActivity {
 

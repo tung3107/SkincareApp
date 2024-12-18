@@ -1,22 +1,19 @@
-package btl.skincareapp;
+package btl.skincareapp.view;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.elevation.SurfaceColors;
-
+import btl.skincareapp.R;
 import btl.skincareapp.databinding.ActivityMainBinding;
+import btl.skincareapp.view.product.AddProductFragment;
+import btl.skincareapp.view.product.AnalysisFragment;
+import btl.skincareapp.view.product.MyListFragment;
+import btl.skincareapp.view.user.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 

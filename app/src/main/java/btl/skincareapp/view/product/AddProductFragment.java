@@ -1,4 +1,4 @@
-package btl.skincareapp;
+package btl.skincareapp.view.product;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import btl.skincareapp.R;
 import btl.skincareapp.helper.DatabaseHelper;
 import btl.skincareapp.model.MyProduct;
 import btl.skincareapp.model.User;
@@ -41,11 +42,6 @@ import btl.skincareapp.model.User;
  * create an instance of this fragment.
  */
 public class AddProductFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     public static boolean isInteger(String str) {
         if(str.isEmpty()) {
             return false;
@@ -63,41 +59,18 @@ public class AddProductFragment extends Fragment {
     String anhURL = null;
     ImageView anhSp;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-
     public AddProductFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddProductFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AddProductFragment newInstance(String param1, String param2) {
         AddProductFragment fragment = new AddProductFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
     private void onListen(View view) {
         Calendar calendar = Calendar.getInstance();

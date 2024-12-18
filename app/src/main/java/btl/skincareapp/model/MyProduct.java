@@ -21,6 +21,23 @@ public class MyProduct implements Serializable {
         NgayHetHan = ngayHetHan;
         this.user_id = user_id;
     }
+    public MyProduct(int id, String tenSp, String gia, String ngayMua, String ngayHetHan) {
+        this.id = id;
+        TenSp = tenSp;
+        Gia = gia;
+        NgayMua = ngayMua;
+        NgayHetHan = ngayHetHan;
+    }
+    public MyProduct(int id, String tenSp, String url_Anh) {
+        this.id = id;
+        TenSp = tenSp;
+        Url_Anh = url_Anh;
+        Gia = null;
+        NhanHieu = null;
+        NgayMua = null;
+        NgayHetHan = null;
+        this.user_id = -1;
+    }
     public int getUser_id() {
         return user_id;
     }
